@@ -1,0 +1,26 @@
+ru:
+  activerecord:
+    attributes:
+      user:
+        nickname: "Никнейм"
+        email: "Почта"
+        password: "Пароль (минимум 6 символов)"
+        register: "Зарегистрироваться"
+        login: "Войти"
+        password_forgot: "Забыли пароль?"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "уже занята"
+              blank: "не может быть пустой"
+            password:
+              too_short: "слишком короткий"
+              blank: "не может быть пустым"
+            password_confirmation:
+              confirmation: "не совпадает"
+            nickname:
+              taken: "уже занят"
+              blank: "не может быть пустым"
+              too_short: "слишком короткий"
