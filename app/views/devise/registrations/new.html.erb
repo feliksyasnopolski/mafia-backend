@@ -11,9 +11,14 @@
 
     <div class="form-group mb-3 w-50">
       <%= f.label :nickname, class: "form-label"%>
-      <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", class: "form-control" %>
+      <%= f.text_field :nickname, autocomplete: "nickname", class: "form-control" %>
     </div>
 
+    <div class="form-group mb-3 w-50>
+      <%= f.label :avatar, class: "form-label" %>
+      <% #f.hidden_field :avatar, value: f.object.avatar.signed_id if f.object.avatar.attached? %>
+      <%= f.file_field :avatar, direct_upload: true, class: "form-control" %>
+    </div>
 
     <div class="form-group mb-3 w-50">
       <%= f.label :password, class:"form-label" %>

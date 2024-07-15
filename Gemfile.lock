@@ -238,6 +238,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activestorage (~> 7.1)
   bootsnap
   cssbundling-rails
   debug

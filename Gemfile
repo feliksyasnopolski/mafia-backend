@@ -69,3 +69,5 @@ gem 'rack-cors'
 gem "dockerfile-rails", ">= 1.6", :group => :development
 
 gem "devise-i18n", "~> 1.12"
+
+gem "activestorage", "~> 7.1"

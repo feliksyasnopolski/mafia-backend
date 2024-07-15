@@ -12,6 +12,13 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
+  <div class="form-group mb-3 w-50>
+    <%= f.label :avatar, class: "form-label" %>
+    <% f.hidden_field :avatar, value: f.object.avatar.signed_id if f.object.avatar.attached? %>
+    <%= f.file_field :avatar, direct_upload: true, class: "form-control" %>
+  </div>
+
+
   <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
