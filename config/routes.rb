@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :clubs
   get 'games/current_state_obs', to: 'games#current_state_obs'
   resources :games
   devise_for :users, controllers: {

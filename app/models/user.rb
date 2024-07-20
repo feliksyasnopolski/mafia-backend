@@ -12,4 +12,5 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :games_players
   has_many :games, through: :games_players
+  belongs_to :club
 end

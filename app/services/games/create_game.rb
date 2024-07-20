@@ -15,8 +15,8 @@ module Games
     # @return [Game] The created game.
     def call
       Game.where(state: [:started, :in_progress]).each(&:finished!)
-
-      game = Game.create(state: :started)
+      club = Club.find_by_token(@params[:token])
+      game = Game.create(state: :started, club: club)
 
       @params[:players].each do |player|
         user = User.find_by(nickname: player[:nickname])

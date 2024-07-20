@@ -37,6 +37,8 @@ module MafiaBackend
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.available_locales = [:ru]
     config.i18n.default_locale = :ru
+    config.hosts << "ehv.htm.nl:3000"
+    config.hosts << "mstr.htm.nl:3000"
 
     # Don't generate system test files.
     config.generators.system_tests = nil

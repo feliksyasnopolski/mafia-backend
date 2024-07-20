@@ -3,4 +3,5 @@ class Game < ApplicationRecord
 
   has_many :games_players
   has_many :players, through: :games_players, class_name: 'User'
+  belongs_to :club
 end

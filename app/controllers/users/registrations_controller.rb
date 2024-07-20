@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Users
   class RegistrationsController < Devise::RegistrationsController
+    before_action :set_current_club
     before_action :configure_sign_up_params, only: [:create]
     before_action :configure_account_update_params, only: [:update]
 
@@ -50,6 +51,11 @@ module Users
       devise_parameter_sanitizer.permit(:account_update, keys: [:nickname, :avatar])
     end
 
+    def build_resource(hash = {})
+      self.resource = resource_class.new_with_session(hash, session)
+      self.resource.club = Current.club
+    end
+
     # The path used after sign up.
     # def after_sign_up_path_for(resource)
     #   super(resource)
@@ -59,5 +65,9 @@ module Users
     # def after_inactive_sign_up_path_for(resource)
     #   super(resource)
     # end
+    def set_current_club
+      token = request.subdomain || params[:token]
+      Current.club = Club.find_by_token(token)
+    end
   end
 end

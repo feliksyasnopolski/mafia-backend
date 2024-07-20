@@ -71,3 +71,7 @@ gem "dockerfile-rails", ">= 1.6", :group => :development
 gem "devise-i18n", "~> 1.12"
 
 gem "activestorage", "~> 7.1"
+
+gem "aws-sdk-s3", "~> 1.156"
+
+gem "sassc-rails", "~> 2.1"

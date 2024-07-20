@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_13_105405) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_19_004503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_105405) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "clubs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "token"
+  end
+
   create_table "game_logs", force: :cascade do |t|
     t.bigint "game_id", null: false
     t.string "log_record"
@@ -55,6 +62,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_105405) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state", default: 0
+    t.bigint "club_id"
+    t.index ["club_id"], name: "index_games_on_club_id"
   end
 
   create_table "games_players", force: :cascade do |t|
@@ -79,6 +88,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_105405) do
     t.datetime "updated_at", null: false
     t.string "nickname"
     t.boolean "internal", default: false
+    t.bigint "club_id"
+    t.index ["club_id"], name: "index_users_on_club_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -86,6 +97,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_105405) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "game_logs", "games"
+  add_foreign_key "games", "clubs"
   add_foreign_key "games_players", "games"
   add_foreign_key "games_players", "users", column: "player_id"
+  add_foreign_key "users", "clubs"
 end
