@@ -1,0 +1,147 @@
+<%= form_with(model: club) do |form| %>
+  <% if club.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(club.errors.count, "error") %> prohibited this club from being saved:</h2>
+
+      <ul>
+        <% club.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :location, class: "form-label" %>
+    <%= form.text_field :location, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_field :description, class: "form-control" %>
+  </div>
+
+  <div class="image-area mt-4">
+    <img id="imageResult" src="<%= form.object.logo.attached? ? url_for(form.object.logo) : '#' %>" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
+  </div>
+
+  <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+    <%
+=begin%>
+ <%= form.label :logo, class: "font-weight-light text-muted", id: 'upload-label' %> 
+<%
+=end%>
+    <%= form.hidden_field :logo, value: form.object.logo.signed_id if form.object.logo.attached? %>
+    <%= form.file_field :logo, direct_upload: true, class: "form-control border-0", onchange: "readURL(this)" %>
+    <div class="input-group-append">
+      <label for="club_logo" class="btn btn-dark m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+    </div>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<style>
+#club_logo {
+  opacity: 0;
+  /* width: 0px;
+  height: 0px;
+  overflow: hidden; */
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    width: 30%;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+</style>
+
+<script>
+
+// Guard against double DOM loads
+var codeExecuted = false;
+
+document.addEventListener('DOMContentLoaded', function(e) {
+
+  // Check if importmap stuff exisits without throwing an error.
+  // Then run main code w/ guard against multiple executions.
+  if (true) { 
+
+    if (!codeExecuted) {
+      $(function () {
+        $('label[for=club_logo].btn').on('click', function () {
+          $('#club_logo[type=file]').trigger('click')
+        });
+        $('#upload').on('change', function () {
+          readURL(input);
+        });
+      });
+
+      // Don't forget to bump guard for one-time only JS execution !!
+      codeExecuted = true; 
+    };  
+  };
+
+});
+/*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+/*  ==========================================
+    SHOW UPLOADED IMAGE NAME
+* ========================================== */
+var input = document.getElementById( 'club_logo' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = 'File name: ' + fileName;
+}
+
+</script>

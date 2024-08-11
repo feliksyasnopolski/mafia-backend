@@ -1,0 +1,18 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ник</th>
+      <th scope="col">Роль</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% game.games_players.order(number: :asc).each do |gp| %>
+      <tr>
+        <th scope="row"><%= gp.number %></th>
+        <td><%= gp.player.nickname %></td>
+        <td><%= gp.role_pretty %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

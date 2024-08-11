@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MafiaBackend</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+
+<body class="antialiased">
+
+  <div class="page">
+    <div class="badge-row">
+      <div class="badge">
+        <div class="badge-title-single">
+          <span> Стол <%= @table.number %> </span>
+        </div>
+      </div>
+      <% if @players %>
+        <% if @players.first.game.info.killed_players.any?%>
+          <div class="badge">
+            <div class="badge-title icon">
+              <img src="<%= image_path('killed.png') %>"></img>
+            </div>
+            <div class="badge-value">
+              <% @players.first.game.info.killed_players.each do |player_number| %>
+                <span class="place-digit <%= @players.where(number: player_number).first.is_citizen? ? "red" : "black" %>"><%= player_number %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if @players.first.game.info.don_checks.any?%>
+          <div class="badge">
+            <div class="badge-title icon">
+              <img src="<%= image_path('godfather.png') %>"></img>
+            </div>
+            <div class="badge-value">
+              <% @players.first.game.info.don_checks.each do |player_number| %>
+                <span class="place-digit <%= @players.where(number: player_number).first.is_citizen? ? "red" : "black" %>"><%= player_number %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <% if @players.first.game.info.sheriff_checks.any?%>
+          <div class="badge">
+            <div class="badge-title icon">
+              <img src="<%= image_path('sheriff.png') %>"></img>
+            </div>
+            <div class="badge-value">
+              <% @players.first.game.info.sheriff_checks.each do |player_number| %>
+                <span class="place-digit <%= @players.where(number: player_number).first.is_citizen? ? "red" : "black" %>"><%= player_number %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      
+    </div>
+    <% if @players %>
+      <% if @players.first.game.info.proposed_players.any? %>
+        <div class="badge-row">
+          <div class="badge">
+            <div class="badge-title"><span>Выставлены:</span></div>
+            <div class="badge-value">
+              <% @players.first.game.info.proposed_players.each do |player_number| %>
+                <span class="place-digit <%= @players.where(number: player_number).first.is_citizen? ? "red" : "black" %>"><%= player_number %></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="hud">
+        <% @players.each do |game_player| %>
+          <% player = game_player.player %>
+          <% game = game_player.game %>
+          <% best_moves = game.info.best_moves %>
+          <div class="player <%= game_player.is_citizen? ? 'red' : 'black' %> <%= game_player.alive ? '' : 'dead' %> ">
+            <% if game_player.number == game.info.first_killed_player && !game_player.alive %>
+              <div class="badge best-move">
+                <div class="badge-value">
+                  <div class="best-move-title">ЛХ</div>
+                  <div class="best-move-list">
+                    <% best_moves.each_with_index do |pn, index| %>
+                      <span class="place-digit <%= game_player.is_citizen? ? "red" : "black" %>"><%= pn %></span>
+                      <% if index < best_moves.size - 1 %>
+                        <img src="<%= image_path("v_spacer_sm.png") %>"></img>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>   
+            <% end %>     
+            <div class="avatar" style="background-image: url('<%= player.avatar.attached? ? url_for(player.avatar) : image_path("def_photo.png") %>')"></div>
+              <div class="place-badge "><%= game_player.number %></div>
+              <img class="v-spacer" src="<%= image_path("v_spacer.png") %>"></img>
+              <div class="nickname">
+                  <%= player.nickname %>
+              </div>
+              <% if game_player.sheriff? || game_player.godfather? %>
+                <div class="role">
+                  <img src="<%= image_path("#{game_player.role}.png") %>"></img>
+                </div>
+              <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <script>
+    setInterval(function() {
+      //location.reload();
+    }, 1000);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .page {
+      width: 100vw;
+      height: 100vh;
+      font-family: "Inter", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-variation-settings: "slnt" 0;
+      font-weight: bold;
+      color: #fff;
+    }
+
+
+    /* LOGO */
+    .logo {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .logo img {
+      height: 81px;
+      width: 271px;
+    }
+
+    /* Badges on top */
+
+    .badge-row {
+      margin: 15px;
+      display: flex;
+      justify-content: start;
+    }
+
+    .badge {
+      height: 40px;
+      width: fit-content;
+      font-size: 20px;
+      margin-right: 15px;
+      padding: 0;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+    }
+
+    .badge .badge-title, .badge .badge-value, .badge .badge-title-single {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      border: 3px solid #393E46;
+      border-collapse: collapse;
+      height: 34px;
+    }
+
+    .badge .badge-title-single {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background-color: #393E46;
+      color: #ffffff;
+    }
+
+    .badge .badge-title {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      background-color: #393E46;
+      color: #ffffff;
+    }
+
+    .badge .badge-value {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      color: #393E46;
+      background-color: #FFFFFF;
+      display: flex;
+      align-items: center;
+    }
+
+    .badge .badge-title span, .badge .badge-value span, .badge .badge-title-single span {
+      display: inline-block;
+      margin: 5px 10px;
+    }
+
+    .badge .badge-title.icon, .badge .badge-title-single.icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 34px;
+    }
+
+    .badge .badge-title img, .badge .badge-title-single img {
+      height: 27px;
+      width: 27px;
+    }
+
+    .badge .badge-value .place-digit {
+      background-color: #BB0000;
+      color: #ffffff;
+      font-size: 18px;
+      padding: 0px;
+      border-radius: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .badge .badge-value .place-digit.black {
+      background-color: #393E46;
+    }
+
+    .badge.best-move {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      margin-top: -43px;
+    }
+
+    .badge.best-move .badge-value {
+      border-radius: 10px;
+      width: 144px;
+      margin-right: 6px;
+      justify-content: space-between;
+    }
+
+    .best-move-title {
+      margin-left: 5px;
+    }
+
+    .best-move-list {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+    }
+
+    .hud {
+      position: absolute;
+      bottom: 15px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 177px;
+    }
+
+    .player {
+      position: relative;
+      height: 177px;
+      width: 150px;
+      margin-right: 15px;
+      border: none;
+    }
+
+    .player.dead {
+      height: 124px;
+      margin-top: 53px;
+    }
+
+    .player.red {
+      background: url(<%= asset_url("frame_red.png") %>);
+    }
+
+    .player.black {
+      background: url(<%= asset_url("frame_black.png") %>);
+    }
+
+    .player.red.dead {
+      background: url(<%= asset_url("frame_red_sm.png") %>);
+    }
+
+    .player.black.dead {
+      background: url(<%= asset_url("frame_black_sm.png") %>);
+    }
+
+    .avatar {
+      position: relative;
+      height: 144px;
+      width: 144px;
+      margin: 3px;
+      background-size: 144px 144px;
+      border-radius: 7px;
+      background-clip: border-box;
+      background-position: center;
+    }
+
+    .player.dead .avatar {
+      height: 91px;
+      -webkit-filter: grayscale(100%);
+    }
+
+    .player .place-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 10px;
+      font-size: 16px;
+    }
+
+    .player .place-badge.wide {
+      left: 5px;
+    }
+
+    .player .v-spacer {
+      position: absolute;
+      bottom: 5px;
+      left: 28px;
+    }
+
+    .player .nickname {
+      position: absolute;
+      width: 116px;
+      height: 20px;
+      bottom: 5px;
+      left: 32px;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fouls {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 34px;
+      height: 34px;
+      margin: 2px;
+      text-align: center;
+      padding-top: 4px;
+      font-size: 24px;
+      background: #BB0000;
+      border-radius: 5px;
+    }
+
+    .black .fouls {
+      background: #393E46;
+    }
+
+    .player .role {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 34px;
+      height: 34px;
+      margin: 2px;
+      background: #BB0000;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .player .state-badge {
+      position: absolute;
+      bottom: 30px;
+      right: 3px;
+      width: 34px;
+      height: 34px;
+      margin: 2px;
+      background: #BB0000;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .player.black .role, .player.black .state-badge {
+      background: #393E46;
+    }
+
+    .player .role img, .player .state-badge img {
+      width: 24px;
+      height: 24px;
+    }
+
+    /********************* game over display *****************/
+
+    body.red {
+      background-color: #800;
+    }
+
+    body.black {
+      background-color: #111;
+    }
+
+    body.draw {
+      background-color: #666;
+    }
+
+    div.results-panel {
+      width: 100%;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .results-panel h1, h2 {
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+
+    .results-panel .result {
+      border: 1px solid #aaa;
+      box-shadow: #888 2px 2px 4px;
+      background-color: #111;
+      padding: 8px;
+    }
+
+    .results-panel .result.red {
+      background-color: #a00;
+    }
+
+    .results-panel .result.grey {
+      background-color: #777;
+    }
+
+  </style>
+</body>
+</html>

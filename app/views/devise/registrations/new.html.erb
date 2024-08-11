@@ -1,0 +1,29 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <%= image_tag "mafia_arena.jpg", id: 'icon' %>
+    </div>
+
+    <!-- Login Form -->
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"fadeIn second", placeholder: "Email"  %>
+      <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", class:"fadeIn second", placeholder: "Игровой ник"  %>
+      <%= f.file_field :avatar, direct_upload: true, class: "fadeIn second" %>
+      <%= f.password_field :password, autocomplete: "new-password", class:"fadeIn second", placeholder: "Пароль" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"fadeIn second", placeholder: "Подтверждение пароля" %>
+      <%= f.submit "Зарегистрироваться", class:"fadeIn third" %>
+    <% end %>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <%= link_to I18n.t('activerecord.attributes.user.login'), new_session_path(resource_name), class: 'underlineHover' %>
+    </div>
+
+  </div>
+</div>
+
+<%= render 'devise/shared/styles' %>

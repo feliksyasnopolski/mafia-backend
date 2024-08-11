@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-lg-2">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+      <% if @club.logo.attached? %>
+        <img src="<%= url_for(@club.logo) %>" class="rounded mx-auto d-block img-thumbnail" />
+      <% end %>
+      <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4 text-start"><%= @club.name %></span>
+      </div>
+      <hr>
+      <%= turbo_frame_tag "club_sidebar" do %>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <%= link_to general_club_path(@club), 
+                        class: "nav-link active general-tab",
+                        data: { 
+                          turbo_frame: "club_settings",
+                          tab: "general"
+                        },
+                        "aria-current": "page" do %>
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+              <%= I18n.t('clubs.manage.main') %>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to tables_club_path(@club), 
+                        class: "nav-link text-white tables-tab",
+                        data: { 
+                          turbo_frame: "club_settings",
+                          tab: "tables"
+                        },
+                        "aria-current": "page" do %>
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+              <%= I18n.t('clubs.tables') %>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to members_club_path(@club), 
+                class: "nav-link text-white members-tab",
+                data: { 
+                  turbo_frame: "club_settings",
+                  tab: "members"
+                } do %>
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+              <%= I18n.t('clubs.manage.members') %>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to games_club_path(@club), 
+                class: "nav-link text-white games-tab",
+                data: { 
+                  turbo_frame: "club_settings",
+                  tab: "games"
+                } do %>
+              <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+              <%= I18n.t('clubs.manage.games') %>
+            <% end %>
+          </li>
+          <li>
+            <% if @club.admin?(Current.user)%>
+              <%= link_to manage_invitees_club_path(@club), 
+                          class: "nav-link text-white invitees-tab",
+                          data: { 
+                            turbo_frame: "club_settings",
+                            tab: "invitees"
+                          } do %>
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                <%= I18n.t('clubs.manage.invites') %>
+              <% end %>
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-lg-10" style="padding-top: 1.7em;">
+    <div class="container">
+      <%= render template: 'clubs/details/general' %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    let navLinkSelector = '#club_sidebar > ul > li > .nav-link';
+    const generalTab = document.querySelectorAll(navLinkSelector);
+
+    generalTab.forEach((tab) => {
+      tab.addEventListener('click', (event) => {
+        $(navLinkSelector).removeClass('active');
+        $(navLinkSelector).addClass('text-white');
+
+        $(event.target).addClass('active');
+      });
+    });
+  });
+</script>

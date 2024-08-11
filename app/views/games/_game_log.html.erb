@@ -1,0 +1,16 @@
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ник</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% game.game_logs.order(created_at: :asc).each do |log| %>
+      <tr>
+        <th scope="row"><%= log.created_at.strftime("%H:%M:%S") %></th>
+        <td><%= log.log_record %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

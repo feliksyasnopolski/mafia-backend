@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row justify-content-md-center gx-5">
+    <div class="col">
+
+    </div>
+    <div class="col-lg-8">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <h3><%= I18n.t('clubs.clubs') %></h3>
+          <%= link_to I18n.t('clubs.new_club'), new_club_path, class: 'btn btn-sm btn-primary create-club-btn' %>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"><%= I18n.t('clubs.name') %></th>
+            <th scope="col"><%= I18n.t('clubs.location') %></th>
+            <th scope="col"><%= I18n.t('clubs.actions') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @clubs.each do |club| %>
+            <%= render club %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
+  
+</div>
+
+<style>
+.create-club-btn {
+  margin-top: 10px;
+}
+</style>

@@ -1,0 +1,10 @@
+<% if Current.user.invitee_of?(club) %>
+  <%= link_to I18n.t('clubs.cancel_request'), leave_club_path(club), data: { turbo_confirm: I18n.t('clubs.confirm'), turbo_method: :post }, class: "btn btn-sm btn-primary" %>
+<% elsif Current.user.admin_of?(club) %>
+  <%= link_to I18n.t('clubs.show'), club_path(club), class: "btn btn-sm btn-secondary" %>
+  <%= link_to I18n.t('clubs.destroy'), club, data: { turbo_confirm: I18n.t('clubs.confirm'), turbo_method: :delete }, class: "btn btn-sm btn-danger" %>
+<% elsif Current.user.member_of?(club) %>
+  <%= link_to I18n.t('clubs.leave'), leave_club_path(club), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+<% elsif !Current.user.club? %>
+  <%= link_to I18n.t('clubs.join'), join_club_path(club), data: { turbo_confirm: I18n.t('clubs.confirm'), turbo_method: :post }, class: "btn btn-sm btn-primary" %>
+<% end %>

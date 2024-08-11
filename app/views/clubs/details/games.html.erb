@@ -1,0 +1,113 @@
+<%= turbo_frame_tag "club_settings" do %>
+  <div class="row">
+    <% @games.each do |game| %>
+      <div class="col-sm-3">
+        <div class="card mb-3" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title"><%= t 'games.game_from', date: game.created_at.strftime("%d/%m/%Y, %H:%M") %></h5>
+            <p class="card-text"><span class="badge <%= game.winner_pretty_class %>"><%= game.winner_pretty %></span></p>
+            <button data-id="<%= game.id %>" class="btn btn-primary btn-game-description"><%= t('games.details') %></button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="modal" id="gameModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="players-tab" data-bs-toggle="tab" data-bs-target="#players_tab" type="button" role="tab" aria-controls="home" aria-selected="true">Таблица игроков</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#log_tab" type="button" role="tab" aria-controls="profile" aria-selected="false">Лог игры</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="players_tab" role="tabpanel" aria-labelledby="players-tab">
+                <table class="table table-sm table-game-players">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Ник</th>
+                      <th scope="col">Роль</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane fade" id="log_tab" role="tabpanel" aria-labelledby="logs-tab">
+                <table class="table table-sm table-game-log">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Ник</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  var codeExecuted = false;
+
+  function fillModal(data) {
+    $('#gameModal .modal-title').text(data.winner);
+
+    var playersTable = $('#gameModal .table-game-players tbody');
+    var logsTable = $('#gameModal .table-game-log tbody');
+
+    playersTable.empty();
+    data.players.forEach(function(gp) {
+      var row = $('<tr>');
+      row.append($('<th>').text(gp.number));
+      row.append($('<td>').text(gp.nickname));
+      row.append($('<td>').text(gp.role));
+      playersTable.append(row);
+    });
+
+    logsTable.empty();
+    data.logs.forEach(function(log) {
+      var row = $('<tr>');
+      var date = new Date(log.created_at);
+      row.append($('<th>').text(date.toLocaleTimeString()));
+      row.append($('<td>').text(log.log_record));
+      logsTable.append(row);
+    });
+    
+  }
+
+  function onLoad() {
+    $('.btn-game-description').on('click', function(e) {
+      var gameId = $(this).data('id');
+      var url = "<%= game_path(':game_id') %>.json".replace(':game_id', gameId);
+      $.get(url, function(data) {
+        var modal = new bootstrap.Modal($('#gameModal'));
+        fillModal(data);
+        // $('#gameModal .modal-body').html(data);
+        modal.show();
+      });
+    });
+    
+  }
+
+  $("turbo:load", function() {
+    if (!codeExecuted) {
+      onLoad();
+      codeExecuted = true;
+    }
+  });
+  </script>
+<% end %>

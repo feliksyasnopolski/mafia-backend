@@ -1,0 +1,5 @@
+<tr id="<%= dom_id club %>">
+  <th scope="row"><%= club.name %></th>
+  <td><%= club.location %></td>
+  <td><%= render partial: 'club_actions', locals: {club: club} %></td>
+</tr>

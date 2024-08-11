@@ -1,0 +1,32 @@
+<%= turbo_frame_tag "club_settings" do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= I18n.t('clubs.manage.invitees') %></th>
+        <th><%= I18n.t('clubs.manage.invitees_contact_data') %></th>
+        <th><%= I18n.t('clubs.manage.invitees_actions') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @club.invitees.each do |invitee| %>
+        <tr>
+          <td><%= invitee.nickname %></td>
+          <td><%= invitee.email %></td>
+            <td>
+            <%= link_to "Accept", 
+                          accept_club_path(invitee.club, invitee), 
+                          method: :post, 
+                          class: "btn btn-sm btn-success", 
+                          remote: true %>
+            <%= link_to "Reject",
+                    reject_club_path(invitee.club, invitee),
+                    method: :post,
+                    class: "btn btn-sm btn-danger",
+                    remote: true %>
+            </td>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,2 @@
+nginx: /usr/sbin/nginx -g "daemon off;"
+rails: ./bin/rails server -p 3001

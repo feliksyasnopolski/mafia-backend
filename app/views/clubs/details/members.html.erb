@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "club_settings" do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= I18n.t('clubs.members.nickname') %></th>
+        <th><%= I18n.t('clubs.members.join_date') %></th>
+        <th><%= I18n.t('clubs.members.actions') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @club_records.each do |record| %>
+        <tr>
+          <td><%= link_to record.user.nickname, user_path(record.user) %></td>
+          <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
+          <td>
+            <% if record.user == Current.user %>
+              <% if record.admin? %>
+                <%= link_to I18n.t('clubs.members.leave_admin'), leave_admin_club_path(@club), data: { turbo_confirm: I18n.t('clubs.confirm'), turbo_method: :delete }, class: "btn btn-sm btn-danger" %>
+              <% else %>
+                <%= link_to I18n.t('clubs.leave'), leave_club_path(@club), data: { turbo_confirm: I18n.t('clubs.confirm'), turbo_method: :delete }, class: "btn btn-sm btn-danger" %>
+              <% end %>
+            <% end %>
+            <% if @club.admin?(Current.user) %>
+              <%= link_to I18n.t('clubs.members.give_admin'), promote_member_club_path(@club, record.user), data: { turbo_confirm: I18n.t('clubs.members.confirm_promote'), turbo_method: :post }, class: "btn btn-sm btn-primary" unless record.admin? %>
+              <% unless record.user == Current.user %>
+                <%= link_to I18n.t('clubs.members.take_admin'), demote_member_club_path(@club, record.user), data: { turbo_confirm: I18n.t('clubs.members.confirm_demote'), turbo_method: :delete }, class: "btn btn-sm btn-danger" if record.admin? %>
+                <%= link_to I18n.t('clubs.members.delete_member'), delete_member_club_path(@club, record.user), data: { turbo_confirm: I18n.t('clubs.members.confirm_delete'), turbo_method: :delete }, class: "btn btn-sm btn-danger" %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

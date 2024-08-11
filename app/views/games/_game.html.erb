@@ -1,0 +1,34 @@
+<div id="<%= dom_id game %>" class="">
+  <div class="container">
+    <div class="accordion" id="accordion_<%= dom_id game %>">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_<%= dom_id game %>">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_<%= dom_id game %>" aria-expanded="true" aria-controls="collapse_<%= dom_id game %>">
+            Игра от <%= game.created_at.strftime("%d/%m/%Y") %> <span class="badge bg-secondary"><%= game.winner_pretty %></span>
+          </button>
+        </h2>
+        <div id="collapse_<%= dom_id game %>" class="accordion-collapse collapse " aria-labelledby="heading_<%= dom_id game %>" data-bs-parent="#accordion_<%= dom_id game %>">
+          <div class="accordion-body accordion-flush">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="players-tab-<%= dom_id game %>" data-bs-toggle="tab" data-bs-target="#players_<%= dom_id game %>" type="button" role="tab" aria-controls="home" aria-selected="true">Таблица игроков</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="logs-tab-<%= dom_id game %>" data-bs-toggle="tab" data-bs-target="#log_<%= dom_id game %>" type="button" role="tab" aria-controls="profile" aria-selected="false">Лог игры</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="players_<%= dom_id game %>" role="tabpanel" aria-labelledby="players-tab-<%= dom_id game %>">
+                <%= render partial: 'game_table', locals: {game: game} %>
+              </div>
+              <div class="tab-pane fade" id="log_<%= dom_id game %>" role="tabpanel" aria-labelledby="logs-tab-<%= dom_id game %>">
+                <%= render partial: 'game_log', locals: {game: game} %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

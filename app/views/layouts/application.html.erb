@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+  <head>
+    <title>Mafia Arena</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <% if Current.user %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mafia Arena</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <%= link_to I18n.t('clubs.clubs'), clubs_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to I18n.t('games.games'), root_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to I18n.t('games.my_games'), my_games_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to(Current.club.name, club_path(Current.club), class: 'nav-link') if Current.user.club? %>
+            </li>
+          </ul>
+
+        </div>
+        <div class="d-flex" style="padding-right: 1%">
+          <%= link_to edit_user_registration_path, class: 'nav-link' do %>
+            <%= I18n.t('users.my_profile') %>
+            <% if Current.user.avatar.attached? %>
+              <%= image_tag(Current.user.avatar, class: "avatar avatar-32 rounded-circle") %>
+            <% else %>
+              <%= image_tag("def_photo.png", class: "avatar avatar-32 rounded-circle") %>
+            <% end %>
+          <% end %>
+        </div>  
+        <div class="d-flex">
+            <%= link_to "Logout", destroy_user_session_path, class: "btn btn-outline-success", data: {turbo_method: :delete} %>
+        </div>       
+        </div>
+      </div>
+    </nav>
+    <% end %>
+    <%= render 'shared/flashes' %>
+    <%= yield %>
+  </body>
+</html>

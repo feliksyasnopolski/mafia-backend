@@ -1,0 +1,88 @@
+ua:
+  activerecord:
+    attributes:
+      user:
+        nickname: "Никнейм"
+        email: "Почта"
+        password: "Пароль (минимум 6 символов)"
+        register: "Зарегистрироваться"
+        login: "Войти"
+        password_forgot: "Забыли пароль?"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "уже занята"
+              blank: "не может быть пустой"
+            password:
+              too_short: "слишком короткий"
+              blank: "не может быть пустым"
+            password_confirmation:
+              confirmation: "не совпадает"
+            nickname:
+              taken: "уже занят"
+              blank: "не может быть пустым"
+              too_short: "слишком короткий"
+  clubs:
+    manage:
+      main: "Основная"
+      members: "Участники"
+      games: "Игры"
+      broadcasts: "Трансляции"
+      invites: "Запросы на вступление"
+
+    all_clubs: "Все клубы"
+    my_clubs: "Мои клубы"
+    new_club: "Создать клуб"
+    edit_club: "Редактировать клуб"
+    delete_club: "Удалить клуб"
+    club: "Клуб"
+    clubs: "Клубы"
+    name: "Название"
+    location: "Город"
+    description: "Описание"
+    members: "Участники"
+    games: "Игры"
+    broadcasts: "Трансляции"
+    join: "Вступить"
+    leave: "Покинуть"
+    join_club: "Вступить в клуб"
+    leave_club: "Покинуть клуб"
+    cancel_request: "Отменить запрос"
+    club_created: "Клуб успешно создан"
+    club_updated: "Клуб успешно обновлен"
+    club_deleted: "Клуб успешно удален"
+    club_joined: "Вы успешно вступили в клуб"
+    club_left: "Вы успешно покинули клуб"
+    without: "Без клуба"
+    actions: "Действия"
+  games:
+    all_games: "Все игры"
+    my_games: "Мои игры"
+    new_game: "Создать игру"
+    edit_game: "Редактировать игру"
+    delete_game: "Удалить игру"
+    game: "Игра"
+    games: "Игры"
+    name: "Название"
+    description: "Описание"
+    club: "Клуб"
+    players: "Игроки"
+    broadcasts: "Трансляции"
+    join: "Присоединиться"
+    already_sent_request: "Запрос на участие уже отправлен"
+    leave: "Покинуть"
+    join_game: "Присоединиться к игре"
+    leave_game: "Покинуть игру"
+    game_created: "Игра успешно создана"
+    game_updated: "Игра успешно обновлена"
+    game_deleted: "Игра успешно удалена"
+    game_joined: "Вы успешно присоединились к игре"
+    game_left: "Вы успешно покинули игру"
+    without: "Без игры"
+  users:
+    all_users: "Все пользователи"
+    my_profile: "Мой профиль"
+    edit_profile: "Редактировать профиль"
+    delete_profile: "Удалить профиль"

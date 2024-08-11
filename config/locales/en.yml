@@ -1,0 +1,88 @@
+ru:
+  activerecord:
+    attributes:
+      user:
+        nickname: "Nickname"
+        email: "Email"
+        password: "Password (minimum 6 characters)"
+        register: "Register"
+        login: "Login"
+        password_forgot: "Forgot Password?"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "has already been taken"
+              blank: "can't be blank"
+            password:
+              too_short: "is too short"
+              blank: "can't be blank"
+            password_confirmation:
+              confirmation: "doesn't match"
+            nickname:
+              taken: "has already been taken"
+              blank: "can't be blank"
+              too_short: "is too short"
+  clubs:
+    manage:
+      main: "Main"
+      members: "Members"
+      games: "Games"
+      broadcasts: "Broadcasts"
+      invites: "Invites"
+
+    all_clubs: "All Clubs"
+    my_clubs: "My Clubs"
+    new_club: "Create Club"
+    edit_club: "Edit Club"
+    delete_club: "Delete Club"
+    club: "Club"
+    clubs: "Clubs"
+    name: "Name"
+    location: "Location"
+    description: "Description"
+    members: "Members"
+    games: "Games"
+    broadcasts: "Broadcasts"
+    join: "Join"
+    leave: "Leave"
+    join_club: "Join Club"
+    leave_club: "Leave Club"
+    cancel_request: "Cancel Request"
+    club_created: "Club created successfully"
+    club_updated: "Club updated successfully"
+    club_deleted: "Club deleted successfully"
+    club_joined: "You have successfully joined the club"
+    club_left: "You have successfully left the club"
+    without: "Without Club"
+    actions: "Actions"
+  games:
+    all_games: "All Games"
+    my_games: "My Games"
+    new_game: "Create Game"
+    edit_game: "Edit Game"
+    delete_game: "Delete Game"
+    game: "Game"
+    games: "Games"
+    name: "Name"
+    description: "Description"
+    club: "Club"
+    players: "Players"
+    broadcasts: "Broadcasts"
+    join: "Join"
+    already_sent_request: "Request to join already sent"
+    leave: "Leave"
+    join_game: "Join Game"
+    leave_game: "Leave Game"
+    game_created: "Game created successfully"
+    game_updated: "Game updated successfully"
+    game_deleted: "Game deleted successfully"
+    game_joined: "You have successfully joined the game"
+    game_left: "You have successfully left the game"
+    without: "Without Game"
+  users:
+    all_users: "All Users"
+    my_profile: "My Profile"
+    edit_profile: "Edit Profile"
+    delete_profile: "Delete Profile"

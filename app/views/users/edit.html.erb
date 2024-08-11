@@ -1,0 +1,152 @@
+<div class="container">
+  <div class="row justify-content-md-center gx-5">
+    <div class="col">
+
+    </div>
+    <div class="col-lg-8">
+
+      <%= form_for(@user, html: { method: :put }) do |f| %>
+        <div class="field">
+          <%= f.label :nickname, class: "form-label" %><br />
+          <%= f.text_field :nickname, autofocus: true, class: "form-control" %>
+        </div>
+
+        <div class="image-area mt-4">
+          <img id="imageResult" src="<%= f.object.avatar.attached? ? url_for(Current.user.avatar) : '#' %>" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
+        </div>
+
+        <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+          <%= f.label :avatar, class: "font-weight-light text-muted", id: 'upload-label' %>
+          <%= f.hidden_field :avatar, value: f.object.avatar.signed_id if f.object.avatar.attached? %>
+          <%= f.file_field :avatar, direct_upload: true, class: "form-control border-0", onchange: "readURL(this)" %>
+          <div class="input-group-append">
+            <label for="user_avatar" class="btn btn-dark m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Choose file</small></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %> <i>(оставьте пустым если не хотите менять)</i><br />
+          <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :current_password %> <i>(введите текущий пароль, если хотите поменять пароль)</i><br />
+          <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Update" %>
+        </div>
+      <% end %>
+
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
+  
+</div>
+
+
+<style>
+#user_avatar {
+  opacity: 0;
+  /* width: 0px;
+  height: 0px;
+  overflow: hidden; */
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    width: 30%;
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+</style>
+
+<script>
+
+// Guard against double DOM loads
+var codeExecuted = false;
+
+document.addEventListener('DOMContentLoaded', function(e) {
+
+  // Check if importmap stuff exisits without throwing an error.
+  // Then run main code w/ guard against multiple executions.
+  if (true) { 
+
+    if (!codeExecuted) {
+      $(function () {
+        $('label[for=user_avatar].btn').on('click', function () {
+          $('#user_avatar[type=file]').trigger('click')
+        });
+        $('#upload').on('change', function () {
+          readURL(input);
+        });
+      });
+
+      // Don't forget to bump guard for one-time only JS execution !!
+      codeExecuted = true; 
+    };  
+  };
+
+});
+/*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+/*  ==========================================
+    SHOW UPLOADED IMAGE NAME
+* ========================================== */
+var input = document.getElementById( 'user_avatar' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = 'File name: ' + fileName;
+}
+
+</script>
