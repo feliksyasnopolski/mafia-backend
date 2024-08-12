@@ -35,7 +35,11 @@ class GamesController < ApplicationController
 
   def current_state_obs
     @table = Table.find_by_token(params[:token])
-    @players = @table.games.last.games_players.includes(:player).order(:number) rescue nil
+    @players = begin
+      @table.games.last.games_players.includes(:player).order(:number)
+    rescue StandardError
+      nil
+    end
     render :current_state_obs, layout: false
   end
 
@@ -54,7 +58,6 @@ class GamesController < ApplicationController
     render json: {}
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def show
     @players = @game.games_players.includes(:player).order(:number)
     respond_to do |format|
@@ -85,7 +88,6 @@ class GamesController < ApplicationController
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # GET /games/new
   def new

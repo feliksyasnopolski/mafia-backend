@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
@@ -52,9 +51,10 @@ Rails.application.routes.draw do
   }
 
   get 'up' => 'rails/health#show', as: :rails_health_check
+  post 'upload_app' => 'app#upload_app'
+  get 'download_app' => 'app#download_app'
 
   resources :users
 
   root 'games#index'
 end
-# rubocop:enable Metrics/BlockLength
