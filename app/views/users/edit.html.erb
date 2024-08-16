@@ -8,7 +8,7 @@
       <%= form_for(@user, html: { method: :put }) do |f| %>
         <div class="field">
           <%= f.label :nickname, class: "form-label" %><br />
-          <%= f.text_field :nickname, autofocus: true, class: "form-control" %>
+          <%= f.text_field :nickname, autofocus: true, required: true, class: "form-control" %>
         </div>
 
         <div class="image-area mt-4">
@@ -26,17 +26,17 @@
 
         <div class="field">
           <%= f.label :password %> <i>(оставьте пустым если не хотите менять)</i><br />
-          <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+          <%= f.password_field :password, class: "form-control" %>
         </div>
 
         <div class="field">
           <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+          <%= f.password_field :password_confirmation, class: "form-control" %>
         </div>
 
         <div class="field">
           <%= f.label :current_password %> <i>(введите текущий пароль, если хотите поменять пароль)</i><br />
-          <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+          <%= f.password_field :current_password, class: "form-control" %>
         </div>
 
         <div class="actions">

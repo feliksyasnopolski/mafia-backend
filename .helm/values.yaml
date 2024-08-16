@@ -15,6 +15,7 @@ appSecrets:
   railsMasterKey: rails_mk
   dbConnection: db_path
   redisConnection: redis_path
+  appUploadCredentials: app_token
 
 imagePullSecrets:
   - name: regcred
@@ -59,13 +60,13 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: htmafia.nl
+    - host: mafiaarena.org
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - hosts:
-      - htmafia.nl
+      - mafiaarena.org
       secretName: letsencrypt-prod
 
 resources: {}

@@ -67,6 +67,11 @@ spec:
                   key: {{ .Values.appSecrets.dbConnection}}
             - name: RAILS_ENV
               value: production
+            - name: UPLOAD_APP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appSecretName }}
+                  key: {{ .Values.appSecrets.appUploadCredentials}}
             - name: REDIS_URL
               valueFrom:
                 secretKeyRef:

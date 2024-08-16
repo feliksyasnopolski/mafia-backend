@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'users/edit', to: 'users#edit', as: 'edit_user'
+  get 'omniauth/callback', to: 'app#auth'
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
+
   namespace :api do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth', defaults: { format: 'json' }
@@ -16,7 +23,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'users/edit', to: 'users#edit'
+  
   get 'broadcast/:token', to: 'games#current_state_obs', as: 'broadcast'
 
   resources :clubs do
@@ -45,10 +52,6 @@ Rails.application.routes.draw do
       get 'my'
     end
   end
-
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
 
   get 'up' => 'rails/health#show', as: :rails_health_check
   post 'upload_app' => 'app#upload_app'

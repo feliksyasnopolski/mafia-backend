@@ -17,7 +17,11 @@ class UsersController < ApplicationController
     @user = Current.user
     begin
       Users::UpdateUser.call(@user, user_params)
-      redirect_to edit_user_path, notice: 'User was successfully updated.'
+      if params["user"]["redirect_home"].blank?
+        redirect_to edit_user_path, notice: 'User was successfully updated.'
+      else
+        redirect_to root_path
+      end
     rescue StandardError
       @user.reload
       p @user.errors.full_messages

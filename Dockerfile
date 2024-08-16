@@ -74,6 +74,7 @@ server {
   listen 80 default_server;
   listen [::]:80 default_server;
   access_log /dev/stdout;
+  client_max_body_size 200M;
 
   root /rails/public;
 
@@ -91,7 +92,7 @@ server {
 
   location @backend {
     proxy_pass http://localhost:3001;
-    # proxy_set_header origin 'https://htmafia.nl';
+    proxy_set_header origin 'https://mafiaarena.org';
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto https;
   }

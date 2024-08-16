@@ -1,0 +1,50 @@
+<% if Current.user && Current.user.nickname.blank? %>
+  <div class="modal" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_for(Current.user, html: { method: :put }) do |f| %>
+          <div class="modal-header">
+            <h5 class="modal-title"><%= t('users.set_nickname') %></h5>
+            <%# <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> %>
+          </div>
+          <div class="modal-body">
+            <div class="field">
+              <%= f.label :nickname, class: "form-label" %><br />
+              <%= f.text_field :nickname, autofocus: true, required: true, class: "form-control" %>
+              <%= f.hidden_field :redirect_home, value: true %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <%# <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> %>
+            <div class="actions">
+              <%= f.submit "Update", class: "btn btn-primary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Guard against double DOM loads
+  var codeExecuted = false;
+
+  document.addEventListener('DOMContentLoaded', function(e) {
+
+    // Check if importmap stuff exisits without throwing an error.
+    // Then run main code w/ guard against multiple executions.
+    if (true) { 
+
+      if (!codeExecuted) {
+        var myModal = new bootstrap.Modal(document.getElementById('myModal'), {focus: true, backdrop: 'static'});
+        myModal.show();
+
+        // Don't forget to bump guard for one-time only JS execution !!
+        codeExecuted = true; 
+      };  
+    };
+
+  });
+      
+  </script>
+<% end %>

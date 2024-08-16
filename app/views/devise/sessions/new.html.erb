@@ -28,10 +28,12 @@
             <%= f.label :remember_me, class:"form-check-label" %>
           </div>
         <% end %>-->
+
         <%= f.submit "Войти", class:"fadeIn third" %>
         <%= link_to I18n.t('activerecord.attributes.user.register'),  new_registration_path(resource_name), class: 'fadeIn third' %>
       </div>
     <% end %>
+    <%= button_to 'Login with Google', user_google_oauth2_omniauth_authorize_path, method: :post, :data => {turbo: "false"} %>
 
     <!-- Remind Passowrd -->
     <!--<div id="formFooter">

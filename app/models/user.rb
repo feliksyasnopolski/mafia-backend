@@ -3,14 +3,16 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :omniauthable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  
+  devise :omniauthable, omniauth_providers: %i[google_oauth2]
   include DeviseTokenAuth::Concerns::User
+  devise :omniauthable, omniauth_providers: %i[google_oauth2]
 
   validates_uniqueness_of :nickname, case_sensitive: false
-  validates_presence_of :nickname
-  validates_length_of :nickname, minimum: 3
+  # validates_presence_of :nickname
+  # validates_length_of :nickname, minimum: 3
 
   # has_and_belongs_to_many :games, join_table: "games_players", foreign_key: "games:game_id"
   has_one_attached :avatar
@@ -41,4 +43,12 @@ class User < ApplicationRecord
   def club?
     club_record.present? && club_record.role != 'invitee'
   end
+
+  def self.from_google(u)
+    u = User.find_by(email: u[:email]) 
+    u = find_or_create_by!(email: u[:email], uid: u[:uid], provider: 'google_oauth2') unless u
+    
+    u
+  end
+
 end
