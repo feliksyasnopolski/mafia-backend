@@ -15,15 +15,28 @@ Rails.application.routes.draw do
       resources :tables
       resources :users
 
-      post 'new_game' => 'games#new_game'
-      post 'update_status' => 'games#update_status'
-      post 'update_votes' => 'games#update_votes'
-      post 'update_log' => 'games#update_log'
-      post 'stop_game' => 'games#stop'
+      resources :games do
+        collection do
+          post 'new'
+          post 'update_status'
+          post 'update_votes'
+          post 'update_log'
+          post 'stop_game' => 'games#stop'
+          post 'save_game'
+          get 'unfinished'
+          get 'state'
+        end
+      end
+
+      # post 'new_game' => 'games#new_game'
+      # post 'update_status' => 'games#update_status'
+      # post 'update_votes' => 'games#update_votes'
+      # post 'update_log' => 'games#update_log'
+      # post 'stop_game' => 'games#stop'
+      # post 'save_game' => 'games#save_game'
     end
   end
 
-  
   get 'broadcast/:token', to: 'games#current_state_obs', as: 'broadcast'
 
   resources :clubs do

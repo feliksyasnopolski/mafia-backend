@@ -14,8 +14,10 @@ module Games
     #
     # @return [Game] The created game.
     def call
-      Game.where(state: %i[pick_roles in_progress]).each(&:finished!)
+      # Game.where(state: %i[pick_roles in_progress]).each(&:finished!)
       table = Table.find_by_token(@params[:table_token])
+      p table
+      table.games.where(state: %i[pick_roles in_progress]).destroy_all
       game = table.games.create(state: :pick_roles)
 
       @params[:players].each do |player|

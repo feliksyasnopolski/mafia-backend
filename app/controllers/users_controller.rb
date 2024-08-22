@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @user = Current.user
     begin
       Users::UpdateUser.call(@user, user_params)
-      if params["user"]["redirect_home"].blank?
+      if params['user']['redirect_home'].blank?
         redirect_to edit_user_path, notice: 'User was successfully updated.'
       else
         redirect_to root_path

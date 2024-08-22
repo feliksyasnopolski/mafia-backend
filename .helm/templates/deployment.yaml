@@ -77,6 +77,16 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.appSecretName }}
                   key: {{ .Values.appSecrets.redisConnection}}
+            - name: GOOGLE_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appSecretName }}
+                  key: {{ .Values.appSecrets.googleClientId}}
+            - name: GOOGLE_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.appSecretName }}
+                  key: {{ .Values.appSecrets.googleClientSecret}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

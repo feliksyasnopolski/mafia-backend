@@ -5,7 +5,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :omniauthable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
   devise :omniauthable, omniauth_providers: %i[google_oauth2]
   include DeviseTokenAuth::Concerns::User
   devise :omniauthable, omniauth_providers: %i[google_oauth2]
@@ -44,11 +44,19 @@ class User < ApplicationRecord
     club_record.present? && club_record.role != 'invitee'
   end
 
-  def self.from_google(u)
-    u = User.find_by(email: u[:email]) 
-    u = find_or_create_by!(email: u[:email], uid: u[:uid], provider: 'google_oauth2') unless u
-    
+  def self.from_google(user)
+    u = User.find_by(email: user[:email])
+    unless u
+      password = SecureRandom.hex(20)
+      u = User.create(
+        email: user[:email],
+        uid: user[:uid],
+        provider: 'google_oauth2',
+        password:,
+        password_confirmation: password
+      )
+    end
+
     u
   end
-
 end

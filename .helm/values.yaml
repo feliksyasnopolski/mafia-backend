@@ -16,6 +16,8 @@ appSecrets:
   dbConnection: db_path
   redisConnection: redis_path
   appUploadCredentials: app_token
+  googleClientId: google_client_id
+  googleClientSecret: google_client_secret
 
 imagePullSecrets:
   - name: regcred

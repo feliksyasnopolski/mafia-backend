@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 ruby '3.2.4'
-gem 'dotenv', groups: [:development, :test]
+gem 'dotenv', groups: %i[development test]
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 
@@ -82,8 +82,8 @@ gem 'devise_token_auth', '~> 1.2'
 
 gem 'store_model', '~> 3.0'
 
-gem "omniauth-google-oauth2", "~> 1.1"
+gem 'omniauth-google-oauth2', '~> 1.1'
 
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-gem "faraday", "~> 2.10"
+gem 'faraday', '~> 2.10'

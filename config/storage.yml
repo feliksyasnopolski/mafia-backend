@@ -1,10 +1,15 @@
-test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
+# test:
+#   service: Disk
+#   root: <%= Rails.root.join("tmp/storage") %>
 
 local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+  service: S3
+  bucket: <%= ENV['MINIO_BUCKET'] || 'mafia' %>
+  endpoint: <%= ENV['MINIO_ENDPOINT'] || 'https://s3.mafiaarena.org' %>
+  access_key_id: <%= ENV['MINIO_ACCESS_KEY_ID'] || 'Vynd3wfKw5tE6s3wFKjO' %>
+  secret_access_key: <%= ENV['MINIO_SECRET_ACCESS_KEY'] || 'uWuLWnsHcbev2IQnPLn6NVKeIVGo00Rsku35lSnY' %>
+  region: us-east-1
+  force_path_style: true
 
 minio:
   service: S3
